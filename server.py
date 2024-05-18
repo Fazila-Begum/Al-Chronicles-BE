@@ -31,10 +31,13 @@ def findUserWithId():
     data={}
     if request.is_json:
         data = request.json
-    email = data['_id']
-    query = {'_id':email}
-    usersList = users.find_one(query)
-    return jsonify(usersList or {'errorMessage':'user not found'})
+    try:
+        email = data['_id']
+        query = {'_id':email}
+        usersList = users.find_one(query)
+        return jsonify(usersList or {'errorMessage':'user not found'})
+    except KeyError as e:
+        return jsonify(usersList or {'errorMessage':'please provide valid username'})
 
 @app.route('/adduser',methods=['POST'])
 def addUser():
