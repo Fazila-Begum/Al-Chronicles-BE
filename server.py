@@ -2,7 +2,8 @@ from math import erf
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from pymongo import MongoClient
-import json
+import jwt
+import datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -76,6 +77,42 @@ def getGamesList():
         gameslist.append(game);
     
     return jsonify({'data':gameslist});
+
+## db.users.aggregate([{$lookup:{from:'user_game_status',localField:'email',foreignField:'user_id',as:'game_progress'}},{$unwind:'$game_progress'}])
+@app.route('/userGameStatus',methods=['POST'])
+def getUserGameStatus():
+    reqdata={}
+    responseData =[];
+    if request.is_json:
+        reqdata = request.json
+    try:
+        email = reqdata['_id']
+        pipeline= [{
+                        '$lookup': { 
+                            'from':'user_game_status',
+                            'localField':'email',
+                            'foreignField':'user_id',
+                            'as':'game_progress'}
+                    },
+                    {
+                        '$unwind':'$game_progress'
+                    }]
+        result = users.aggregate(pipeline);
+        for doc in result:
+            responseData.append(doc)
+        return jsonify(responseData)
+    
+    except Exception as e:
+        return jsonify({'errormessage':'something went wrong'})
+    return jsonify({})
+
+@app.route('/tokenize',methods=['POST'])
+def tokenizeLogin():
+    reqdata ={}
+    if request.is_json:
+        reqdata = request.json
+        
+    return jsonify({'sid':''})
 
 if __name__ == '__main__':
     app.run(debug=True)
