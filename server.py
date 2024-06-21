@@ -203,9 +203,10 @@ def upsertUserGameStatus():
         userEmail = data['email']
         gameId = data['game_id']
         status = data['status']
+        time_series=data['time_series']
 
         query = {'email':userEmail,'game_id':gameId}
-        updatet = {'$set':{ 'status':status, 'email' : userEmail, 'game_id':gameId}}
+        updatet = {'$set':{ 'status':status, 'email' : userEmail, 'game_id':gameId ,'time_series':time_series}}
         try:
             result = user_game_status.update_one(query,updatet,True)
             response['acknowledged'] = True
