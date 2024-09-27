@@ -17,3 +17,7 @@
 ## connecting to mongoDB
 
     in `server.py` replace uri with the coneection URL <db password > with connection pasword for the user
+
+## API refrences
+
+    import `mongoatlas.postman_collection` as collection in postman and test your BE
