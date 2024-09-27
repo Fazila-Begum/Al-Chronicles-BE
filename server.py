@@ -8,7 +8,7 @@ import datetime
 app = Flask(__name__)
 CORS(app)
 
-uri = "mongodb://localhost:27017"
+uri = "mongodb+srv://hajimalungbaba786:<db  password>@cluster0.4oots.mongodb.net/"
 client = MongoClient(uri)
 
 database = client.get_database("al-chronicles")
