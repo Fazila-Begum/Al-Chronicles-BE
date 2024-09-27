@@ -13,3 +13,7 @@
 ## to run local server
 
     `python ./server.py`
+
+## connecting to mongoDB
+
+    in `server.py` replace uri with the coneection URL <db password > with connection pasword for the user
